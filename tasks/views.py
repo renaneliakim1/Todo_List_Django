@@ -1,3 +1,45 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect , get_object_or_404
 
-# Create your views here.
+from .models import Tasks
+from .forms import TaskForm
+
+def task_list(request):
+    tasks = Tasks.objects.order_by('-created_at')
+
+    return render(request, 'task/task_list.html', {'tasks': tasks})
+
+def task_create(request):
+    if request.method == 'POST':
+        form = TasksForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tasks:list)')
+        else:
+            form=TaskForm()
+        return render(request, 'task/task_form.html', {'form' : form, 'title': 'Nova Tarefa'})
+
+def task_toggle(request, pk): 
+    task = get_object_or_404(Tasks, pk=pk)
+    task.done = not task.done
+    task.save()
+    return redirect('tasks:list')
+
+
+def task_edit(request, pk): 
+    task = get_object_or_404(Tasks, pk=pk)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('tasks:list')
+        else:
+            form=TaskForm(instance=task)
+        return render(request, 'task/task_form.html', {'form' : form, 'title': 'Editar Tarefa'})    
+    
+
+def task_delete(request, pk): 
+    task = get_object_or_404(Tasks, pk=pk)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('tasks:list')
+    return render(request, 'task/task_confirm_delete.html', {'task': task})
