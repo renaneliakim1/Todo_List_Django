@@ -1,0 +1,47 @@
+<!-- ligar pontos atraves de objetos -->
+
+{% extends 'base.html' %}
+
+{% block title % } Tarefas {% endblock %}
+{% block content %}
+<a class="btn btn-primary mb-3" href="{% url 'task_create' %}">Nova Tarefa</a>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    </thead>
+
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>
+                {{% if task.done %}}
+                <span class="badge bg-sucess"> Concluída </span>
+                {% else %}
+                <span class="badge bg-danger"> Pendente </span>
+                {% endif %}
+            </td>
+
+            <td class="d-flex gap-2 ">
+                <a class="btn btn-sm btn-outilne-secondary" href="{% url task_toggle task.id %}">Alternar</a>
+                <a class="btn btn-sm btn-outilne-primary" href="{%  url 'task:edit' task.pk %}">Editar</a>
+                <a class="btn btn-sm btn-outilne-secondary" href="{% url 'task:delete' task.pk %}">Excluir</a>
+            </td>
+        </tr>
+
+        {%empty %}  
+        <tr>
+            <td>colspan="3" class="text-center">Nenhuma tarefa cadastrada</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}
+F
