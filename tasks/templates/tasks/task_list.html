@@ -4,16 +4,15 @@
 
 {% block title % } Tarefas {% endblock %}
 {% block content %}
-<a class="btn btn-primary mb-3" href="{% url 'task_create' %}">Nova Tarefa</a>
+<a class="btn btn-primary mb-3" href="{% url 'task:create' %}">Nova Tarefa</a>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Título</th>
             <th>Descrição</th>
             <th>Status</th>
         </tr>
-    </thead>
     </thead>
 
     <tbody>
@@ -29,7 +28,7 @@
             </td>
 
             <td class="d-flex gap-2 ">
-                <a class="btn btn-sm btn-outilne-secondary" href="{% url task_toggle task.id %}">Alternar</a>
+                <a class="btn btn-sm btn-outilne-secondary" href="{% url task:toggle task.id %}">Alternar</a>
                 <a class="btn btn-sm btn-outilne-primary" href="{%  url 'task:edit' task.pk %}">Editar</a>
                 <a class="btn btn-sm btn-outilne-secondary" href="{% url 'task:delete' task.pk %}">Excluir</a>
             </td>
