@@ -1,6 +1,6 @@
 <!-- ligar pontos atraves de objetos -->
 
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title % } Tarefas {% endblock %}
 {% block content %}
@@ -28,13 +28,13 @@
             </td>
 
             <td class="d-flex gap-2 ">
-                <a class="btn btn-sm btn-outilne-secondary" href="{% url task:toggle task.id %}">Alternar</a>
-                <a class="btn btn-sm btn-outilne-primary" href="{%  url 'task:edit' task.pk %}">Editar</a>
-                <a class="btn btn-sm btn-outilne-secondary" href="{% url 'task:delete' task.pk %}">Excluir</a>
+                <a class="btn btn-sm btn-outilne-secondary" href="{% url tasks:toggle task.id %}">Alternar</a>
+                <a class="btn btn-sm btn-outilne-primary" href="{%  url 'tasks:edit' task.pk %}">Editar</a>
+                <a class="btn btn-sm btn-outilne-danger" href="{% url 'tasks:delete' task.pk %}">Excluir</a>
             </td>
         </tr>
 
-        {%empty %}  
+        {% empty %}  
         <tr>
             <td>colspan="3" class="text-center">Nenhuma tarefa cadastrada</td>
         </tr>
@@ -43,4 +43,3 @@
     </tbody>
 </table>
 {% endblock %}
-F

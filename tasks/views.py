@@ -16,7 +16,7 @@ def task_create(request):
             return redirect('tasks:list)')
         else:
             form=TaskForm()
-        return render(request, 'task/task_form.html', {'form' : form, 'title': 'Nova Tarefa'})
+        return render(request, 'tasks/task_form.html', {'form' : form, 'title': 'Nova Tarefa'})
 
 def task_toggle(request, pk): 
     task = get_object_or_404(Task, pk=pk)
@@ -34,7 +34,7 @@ def task_edit(request, pk):
             return redirect('tasks:list')
         else:
             form=TaskForm(instance=task)
-        return render(request, 'task/task_form.html', {'form' : form, 'title': 'Editar Tarefa'})    
+        return render(request, 'tasks/task_form.html', {'form' : form, 'title': 'Editar Tarefa'})    
     
 
 def task_delete(request, pk): 
