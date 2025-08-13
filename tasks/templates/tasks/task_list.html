@@ -2,9 +2,9 @@
 
 {% extends "base.html" %}
 
-{% block title % } Tarefas {% endblock %}
+{% block title %}Tarefas{% endblock %}
 {% block content %}
-<a class="btn btn-primary mb-3" href="{% url 'task:create' %}">Nova Tarefa</a>
+<a class="btn btn-primary mb-3" href="{% url 'tasks:create' %}">Nova Tarefa</a>
 
 <table class="table table-striped">
     <thead>
@@ -20,15 +20,15 @@
         <tr>
             <td>{{ task.title }}</td>
             <td>
-                {{% if task.done %}}
-                <span class="badge bg-sucess"> Concluída </span>
+                {% if task.done %}
+                <span class="badge bg-success"> Concluída </span>
                 {% else %}
                 <span class="badge bg-danger"> Pendente </span>
                 {% endif %}
             </td>
 
             <td class="d-flex gap-2 ">
-                <a class="btn btn-sm btn-outilne-secondary" href="{% url tasks:toggle task.id %}">Alternar</a>
+                <a class="btn btn-sm btn-outilne-secondary" href="{% url 'tasks:toggle' task.pk %}">Alternar</a>
                 <a class="btn btn-sm btn-outilne-primary" href="{%  url 'tasks:edit' task.pk %}">Editar</a>
                 <a class="btn btn-sm btn-outilne-danger" href="{% url 'tasks:delete' task.pk %}">Excluir</a>
             </td>
@@ -36,7 +36,7 @@
 
         {% empty %}  
         <tr>
-            <td>colspan="3" class="text-center">Nenhuma tarefa cadastrada</td>
+            <td colspan="3" class="text-center">Nenhuma tarefa cadastrada</td>
         </tr>
         {% endfor %}
 

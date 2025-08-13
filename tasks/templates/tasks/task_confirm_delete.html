@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block titile %}Excluir{% endblock%}
+{% block title %}Excluir{% endblock %}
 {% block content %}
 
 <h2 >Confirmar Exclusão</h2>
 <p>Tem certeza que deseja excluir esta tarefa?<strong>{{ task.title }}</strong> </p>
 
 <form method="post">
-    {{% csrf_token %}}
+    {% csrf_token %}
     <button  class="btn btn-danger" type="submit"> Excluir </button>
-    <a href="{% url 'task_list' %}" class="btn btn-light}">Cancelar</a>
+    <a href="{% url 'tasks:list' %}" class="btn btn-light">Cancelar</a>
 </form>
 {% endblock %}
