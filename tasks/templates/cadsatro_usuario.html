@@ -1,0 +1,9 @@
+<h2>Cadastro</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{fomr.as_p}}
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+
+<p>Já tem conta? <a href="{% url 'signup' %}">Entrar</a>.</p>
