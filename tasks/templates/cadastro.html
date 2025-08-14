@@ -1,5 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="email"],
+    form input[type="number"],
+    form input[type="url"],
+    form input[type="tel"],
+    form input[type="date"],
+    form input[type="month"],
+    form input[type="week"],
+    form input[type="time"],
+    form input[type="datetime"],
+    form input[type="datetime-local"],
+    form input[type="search"],
+    form select,
+    form textarea {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .password-container {
+        position: relative;
+    }
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
 <div class="row justify-content-center align-items-center min-vh-100 bg-light">
     <div class="col-12 col-md-8 col-lg-5">
         <div class="card shadow border-0 p-4">
@@ -7,16 +50,26 @@
             <form method="post" novalidate autocomplete="off">
                 {% csrf_token %}
                 {% for field in form %}
-                                <div class="mb-3 text-start">
-                                    {{ field.label_tag }}
-                                    {{ field }}
-                                    {% if field.help_text %}
-                                        <div class="form-text">{{ field.help_text }}</div>
-                                    {% endif %}
-                                    {% if field.errors %}
-                                        <div class="text-danger small">{{ field.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
+                    <div class="mb-3 text-start">
+                        {{ field.label_tag }}
+                        <div class="password-container">
+                            {{ field }}
+                            {% if field.name == 'password' or field.name == 'password1' or field.name == 'password2' or field.html_name == 'password' or field.html_name == 'password1' or field.html_name == 'password2' %}
+                                <span class="toggle-password">
+                                    <svg class="bi bi-eye-slash-fill" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                                    </svg>
+                                </span>
+                            {% endif %}
+                        </div>
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
                 {% endfor %}
                 <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Cadastrar</button>
             </form>
@@ -26,4 +79,32 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.querySelectorAll('.toggle-password');
+
+        const eyeIcon = `<svg class="bi bi-eye-fill" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                        </svg>`;
+        const eyeSlashIcon = `<svg class="bi bi-eye-slash-fill" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                                <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                            </svg>`;
+
+        togglePassword.forEach(el => {
+            el.addEventListener('click', function () {
+                const passwordInput = this.parentElement.querySelector('input');
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    this.innerHTML = eyeIcon;
+                } else {
+                    passwordInput.type = "password";
+                    this.innerHTML = eyeSlashIcon;
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
