@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect , get_object_or_404
 from .models import Tasks
 from .forms import TaskForm
 
-from django.contrib.auth import login 
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CadastroUsuarioForm
 
@@ -16,8 +16,13 @@ def cadastro_usuario(request):
             return redirect('tasks:list')
     else:
         form = CadastroUsuarioForm()
-        return render(request, 'cadastro_usuario.html', {'form': form})
+    return render(request, 'cadastro_usuario.html', {'form': form})
     
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('tasks:login')       
 
 @login_required
 def task_list(request):
@@ -29,7 +34,9 @@ def task_create(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
             return redirect('tasks:list')
         return render(request, 'tasks/task_form.html', {'form': form, 'title': 'Nova Tarefa'})
     else:

@@ -2,8 +2,8 @@
 
 <form method="post">
     {% csrf_token %}
-    {{fomr.as_p}}
+    {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Cadastrar</button>
 </form>
 
-<p>Já tem conta? <a href="{% url 'signup' %}">Entrar</a>.</p>
+<p>Já tem conta? <a href="{% url 'tasks:login' %}">Entrar</a>.</p>

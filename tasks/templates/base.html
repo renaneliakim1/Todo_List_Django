@@ -11,7 +11,20 @@
 
 
     <body class="container py-4">
+
         <h1 class="mb-4"> Mini To-Do com Django</h1>
+        <div class="mb-3">
+            {% if user.is_authenticated %}
+                Olá, {{ user.username }}!
+                <form action="{% url 'tasks:logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'tasks:login' %}">Entrar</a> |
+                <a href="{% url 'tasks:cadastro_usuario' %}">Cadastrar</a>
+            {% endif %}
+        </div>
         {% block content %}{% endblock %}
 
         
