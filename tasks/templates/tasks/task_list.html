@@ -4,42 +4,52 @@
 
 {% block title %}Tarefas{% endblock %}
 {% block content %}
-<a class="btn btn-primary mb-3" href="{% url 'tasks:create' %}">Nova Tarefa</a>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Título</th>
-            <th>Descrição</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.title }}</td>
-            <td>
-                {% if task.done %}
-                <span class="badge bg-success"> Concluída </span>
-                {% else %}
-                <span class="badge bg-danger"> Pendente </span>
-                {% endif %}
-            </td>
-
-            <td class="d-flex gap-2 ">
-                <a class="btn btn-sm btn-outilne-secondary" href="{% url 'tasks:toggle' task.pk %}">Alternar</a>
-                <a class="btn btn-sm btn-outilne-primary" href="{%  url 'tasks:edit' task.pk %}">Editar</a>
-                <a class="btn btn-sm btn-outilne-danger" href="{% url 'tasks:delete' task.pk %}">Excluir</a>
-            </td>
-        </tr>
-
-        {% empty %}  
-        <tr>
-            <td colspan="3" class="text-center">Nenhuma tarefa cadastrada</td>
-        </tr>
-        {% endfor %}
-
-    </tbody>
-</table>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary mb-0">Minhas Tarefas</h2>
+        <a class="btn btn-success px-4 fw-bold" href="{% url 'tasks:create' %}">+ Nova Tarefa</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle shadow-sm rounded bg-white">
+            <thead class="table-primary">
+                <tr>
+                    <th class="text-center">Título</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td class="text-center">
+                        {% if task.done %}
+                            <span class="text-decoration-line-through text-muted">{{ task.title }}</span>
+                        {% else %}
+                            {{ task.title }}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if task.done %}
+                            <span class="badge bg-success px-3 py-2">Concluída</span>
+                        {% else %}
+                            <span class="badge bg-danger px-3 py-2">Pendente</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'tasks:toggle' task.pk %}">Alternar</a>
+                            <a class="btn btn-sm btn-outline-primary" href="{% url 'tasks:edit' task.pk %}">Editar</a>
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'tasks:delete' task.pk %}">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">Nenhuma tarefa cadastrada</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="col-12 col-md-8 col-lg-5">
+        <div class="card shadow border-0 p-4">
+            <h2 class="text-center mb-4 fw-bold text-primary">Criar Conta</h2>
+            <form method="post" novalidate autocomplete="off">
+                {% csrf_token %}
+                {% for field in form %}
+                                <div class="mb-3 text-start">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <div class="form-text">{{ field.help_text }}</div>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <div class="text-danger small">{{ field.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Cadastrar</button>
+            </form>
+            <div class="mt-4 text-center">
+                <span class="text-muted">Já tem conta?</span> <a href="{% url 'tasks:login' %}" class="fw-semibold">Entrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -22,7 +22,7 @@
                 </form>
             {% else %}
                 <a href="{% url 'tasks:login' %}">Entrar</a> |
-                <a href="{% url 'tasks:cadastro_usuario' %}">Cadastrar</a>
+                <a href="{% url 'tasks:cadastro' %}">Cadastrar</a>
             {% endif %}
         </div>
         {% block content %}{% endblock %}

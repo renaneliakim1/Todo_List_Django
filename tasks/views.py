@@ -16,7 +16,7 @@ def cadastro_usuario(request):
             return redirect('tasks:list')
     else:
         form = CadastroUsuarioForm()
-    return render(request, 'cadastro_usuario.html', {'form': form})
+    return render(request, 'cadastro.html', {'form': form})
     
 
 
